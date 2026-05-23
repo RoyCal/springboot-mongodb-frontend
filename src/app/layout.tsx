@@ -31,7 +31,7 @@ export default function RootLayout({
         <html
             lang="en"
             className={cn(
-                'h-full',
+                'h-full dark',
                 'antialiased',
                 geistSans.variable,
                 geistMono.variable,
@@ -39,11 +39,11 @@ export default function RootLayout({
                 dmSans.variable,
             )}
         >
-            <body className="min-h-full flex flex-col">
+            <body className="h-full bg-slate-950 text-slate-50">
                 <SidebarProvider>
                     <AppSidebar />
-                    <main>
-                        <SidebarTrigger />
+                    <main className="w-screen h-screen overflow-auto bg-slate-950">
+                        <SidebarTrigger className="absolute hover:bg-slate-700" />
                         {children}
                     </main>
                 </SidebarProvider>
