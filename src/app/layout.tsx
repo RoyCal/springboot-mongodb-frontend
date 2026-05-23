@@ -4,6 +4,7 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/app-sidebar';
+import { Toaster } from 'sonner';
 
 const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -47,6 +48,7 @@ export default function RootLayout({
                         {children}
                     </main>
                 </SidebarProvider>
+                <Toaster />
             </body>
         </html>
     );

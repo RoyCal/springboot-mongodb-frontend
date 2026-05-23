@@ -11,6 +11,17 @@ import {
     TableCell,
     Table,
 } from './ui/table';
+import {
+    Dialog,
+    DialogTrigger,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription,
+} from './ui/dialog';
+import { Button } from './ui/button';
+import { Plus } from 'lucide-react';
+import UserForm from './add-user-form';
 
 interface User {
     id: string;
@@ -21,19 +32,21 @@ interface User {
 export default function ListUsers() {
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+    const fetchUsers = async () => {
+        try {
+            const data = await findAllUsers();
+            setUsers(data);
+        } catch (error) {
+            console.error('Erro ao buscar usuários:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const data = await findAllUsers();
-                setUsers(data);
-            } catch (error) {
-                console.error('Erro ao buscar usuários:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         fetchUsers();
     }, []);
 
@@ -55,6 +68,32 @@ export default function ListUsers() {
                     <Table>
                         <TableCaption className="text-slate-400 py-4 px-6 border-t border-slate-800">
                             Listagem completa de usuários cadastrados no sistema
+                        </TableCaption>
+                        <TableCaption className="text-slate-400 py-4 px-6 border-t border-slate-800">
+                            <Dialog
+                                open={isDialogOpen}
+                                onOpenChange={setIsDialogOpen}
+                            >
+                                <DialogTrigger asChild>
+                                    <Button>
+                                        <Plus />
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <DialogHeader>
+                                        <DialogTitle>
+                                            Adicionar usuário
+                                        </DialogTitle>
+                                        <DialogDescription></DialogDescription>
+                                    </DialogHeader>
+                                    <UserForm
+                                        onSuccess={async () => {
+                                            setIsDialogOpen(false);
+                                            await fetchUsers();
+                                        }}
+                                    />
+                                </DialogContent>
+                            </Dialog>
                         </TableCaption>
                         <TableHeader>
                             <TableRow className="bg-slate-800/50 hover:bg-slate-800/50 border-b-2 border-slate-800">
