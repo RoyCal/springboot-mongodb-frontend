@@ -40,3 +40,19 @@ export const addUser = async (name: string, email: string) => {
         console.log(error);
     }
 };
+
+export const deleteUser = async (userId: string) => {
+    const apiUrl = `http://localhost:8080/users/${userId}`;
+
+    try {
+        const response = await fetch(apiUrl, { method: 'DELETE' }); 
+
+        if (response.status === 204) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error){
+        console.log('Error: ', error);
+    }
+}

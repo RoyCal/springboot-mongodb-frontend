@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { findAllUsers } from '@/actions/handle-api';
+import { deleteUser, findAllUsers } from '@/actions/handle-api';
 import {
     TableCaption,
     TableHeader,
@@ -18,9 +18,10 @@ import {
     DialogHeader,
     DialogTitle,
     DialogDescription,
+    DialogFooter,
 } from './ui/dialog';
 import { Button } from './ui/button';
-import { Plus } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
 import UserForm from './add-user-form';
 
 interface User {
@@ -33,6 +34,12 @@ export default function ListUsers() {
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+    const handleDeleteUser = async (userId: string) => {
+        deleteUser(userId);
+
+        await fetchUsers();
+    };
 
     const fetchUsers = async () => {
         try {
@@ -75,7 +82,7 @@ export default function ListUsers() {
                                 onOpenChange={setIsDialogOpen}
                             >
                                 <DialogTrigger asChild>
-                                    <Button>
+                                    <Button className="w-full">
                                         <Plus />
                                     </Button>
                                 </DialogTrigger>
@@ -148,6 +155,35 @@ export default function ListUsers() {
                                         </TableCell>
                                         <TableCell className="text-slate-400 text-sm font-mono py-4">
                                             {user.id}
+                                        </TableCell>
+                                        <TableCell className="text-slate-400 text-sm font-mono py-4">
+                                            <Dialog>
+                                                <DialogTrigger asChild>
+                                                    <Button className="bg-red-900 hover:bg-red-950">
+                                                        <Trash2 />
+                                                    </Button>
+                                                </DialogTrigger>
+                                                <DialogContent>
+                                                    <DialogHeader>
+                                                        <DialogTitle>
+                                                            Tem certeza que
+                                                            deseja deletar este
+                                                            usuário?
+                                                        </DialogTitle>
+                                                        <DialogDescription>
+                                                            Essa ação não pode
+                                                            ser desfeita. Você
+                                                            terá que adicionar o
+                                                            usuário novamente!
+                                                        </DialogDescription>
+                                                    </DialogHeader>
+                                                    <DialogFooter>
+                                                        <Button onClick={() => handleDeleteUser(user.id)} className="bg-red-900 hover:bg-red-950">
+                                                            <Trash2/>
+                                                        </Button>
+                                                    </DialogFooter>
+                                                </DialogContent>
+                                            </Dialog>
                                         </TableCell>
                                     </TableRow>
                                 ))
