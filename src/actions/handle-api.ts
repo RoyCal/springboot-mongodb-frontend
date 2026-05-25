@@ -31,11 +31,7 @@ export const addUser = async (name: string, email: string) => {
             }),
         });
 
-        if (response.status === 201) {
-            return true;
-        } else {
-            return false;
-        }
+        return response.status === 201;
     } catch (error) {
         console.log(error);
     }
@@ -45,14 +41,35 @@ export const deleteUser = async (userId: string) => {
     const apiUrl = `http://localhost:8080/users/${userId}`;
 
     try {
-        const response = await fetch(apiUrl, { method: 'DELETE' }); 
+        const response = await fetch(apiUrl, { method: 'DELETE' });
 
-        if (response.status === 204) {
-            return true;
-        } else {
-            return false;
-        }
-    } catch (error){
+        return response.status === 204;
+    } catch (error) {
         console.log('Error: ', error);
     }
-}
+};
+
+export const updateUser = async (
+    userId: string,
+    name: string,
+    email: string,
+) => {
+    const apiUrl = `http://localhost:8080/users/${userId}`;
+
+    try {
+        const response = await fetch(apiUrl, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: name,
+                email: email,
+            }),
+        });
+
+        return response.status === 204;
+    } catch (error) {
+        console.log(error);
+    }
+};

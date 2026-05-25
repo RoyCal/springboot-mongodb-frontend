@@ -21,8 +21,10 @@ import {
     DialogFooter,
 } from './ui/dialog';
 import { Button } from './ui/button';
-import { Plus, Trash2 } from 'lucide-react';
+import { Pencil, Plus, Trash2 } from 'lucide-react';
 import UserForm from './add-user-form';
+import { toast } from 'sonner';
+import UserUpdateForm from './update-user-form';
 
 interface User {
     id: string;
@@ -33,10 +35,13 @@ interface User {
 export default function ListUsers() {
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+    const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState(false);
 
     const handleDeleteUser = async (userId: string) => {
         deleteUser(userId);
+
+        toast.success('Usuário deletado com sucesso');
 
         await fetchUsers();
     };
@@ -78,8 +83,8 @@ export default function ListUsers() {
                         </TableCaption>
                         <TableCaption className="text-slate-400 py-4 px-6 border-t border-slate-800">
                             <Dialog
-                                open={isDialogOpen}
-                                onOpenChange={setIsDialogOpen}
+                                open={isAddDialogOpen}
+                                onOpenChange={setIsAddDialogOpen}
                             >
                                 <DialogTrigger asChild>
                                     <Button className="w-full">
@@ -95,7 +100,7 @@ export default function ListUsers() {
                                     </DialogHeader>
                                     <UserForm
                                         onSuccess={async () => {
-                                            setIsDialogOpen(false);
+                                            setIsAddDialogOpen(false);
                                             await fetchUsers();
                                         }}
                                     />
@@ -157,6 +162,37 @@ export default function ListUsers() {
                                             {user.id}
                                         </TableCell>
                                         <TableCell className="text-slate-400 text-sm font-mono py-4">
+                                            <Dialog
+                                                open={isUpdateDialogOpen}
+                                                onOpenChange={
+                                                    setIsUpdateDialogOpen
+                                                }
+                                            >
+                                                <DialogTrigger asChild>
+                                                    <Button className="mr-1">
+                                                        <Pencil />
+                                                    </Button>
+                                                </DialogTrigger>
+                                                <DialogContent>
+                                                    <DialogHeader>
+                                                        <DialogTitle>
+                                                            Editar usuário
+                                                        </DialogTitle>
+                                                        <DialogDescription></DialogDescription>
+                                                    </DialogHeader>
+                                                    <UserUpdateForm
+                                                        userId={user.id}
+                                                        name={user.name}
+                                                        email={user.email}
+                                                        onSuccess={async () => {
+                                                            setIsUpdateDialogOpen(
+                                                                false,
+                                                            );
+                                                            await fetchUsers();
+                                                        }}
+                                                    />
+                                                </DialogContent>
+                                            </Dialog>
                                             <Dialog>
                                                 <DialogTrigger asChild>
                                                     <Button className="bg-red-900 hover:bg-red-950">
@@ -178,8 +214,15 @@ export default function ListUsers() {
                                                         </DialogDescription>
                                                     </DialogHeader>
                                                     <DialogFooter>
-                                                        <Button onClick={() => handleDeleteUser(user.id)} className="bg-red-900 hover:bg-red-950">
-                                                            <Trash2/>
+                                                        <Button
+                                                            onClick={() =>
+                                                                handleDeleteUser(
+                                                                    user.id,
+                                                                )
+                                                            }
+                                                            className="bg-red-900 hover:bg-red-950"
+                                                        >
+                                                            <Trash2 />
                                                         </Button>
                                                     </DialogFooter>
                                                 </DialogContent>
