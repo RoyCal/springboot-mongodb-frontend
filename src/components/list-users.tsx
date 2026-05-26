@@ -63,25 +63,25 @@ export default function ListUsers() {
     }, []);
 
     return (
-        <div className="h-full bg-linear-to-br from-slate-950 via-slate-800 to-slate-950 py-12 px-4 sm:px-6 lg:px-8 overflow-auto">
-            <div className="max-w-5xl mx-auto">
+        <div className="h-full bg-linear-to-br from-slate-950 via-purple-950 to-slate-950 py-12 px-4 sm:px-6 lg:px-8 overflow-auto">
+            <div className="max-w-6xl mx-auto">
                 {/* Header */}
-                <div className="mb-12 text-center absolute left-1/2 -translate-x-1/2">
+                <div className="mb-12 text-center">
                     <h1 className="text-4xl font-bold text-white mb-2">
                         Gestão de Usuários
                     </h1>
-                    <p className="text-slate-400 text-lg">
+                    <p className="text-purple-300/70 text-lg">
                         Visualize e gerencie todos os usuários do sistema
                     </p>
                 </div>
 
                 {/* Table Container */}
-                <div className="bg-slate-900 rounded-lg shadow-2xl border border-slate-800 overflow-hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <div className="bg-purple-950/40 rounded-lg shadow-2xl border border-purple-900/30 overflow-hidden">
                     <Table>
-                        <TableCaption className="text-slate-400 py-4 px-6 border-t border-slate-800">
+                        <TableCaption className="text-purple-300/70 py-4 px-6 border-t border-purple-900/30">
                             Listagem completa de usuários cadastrados no sistema
                         </TableCaption>
-                        <TableCaption className="text-slate-400 py-4 px-6 border-t border-slate-800">
+                        <TableCaption className="text-purple-300/70 py-4 px-6 border-t border-purple-900/30">
                             <Dialog
                                 open={isAddDialogOpen}
                                 onOpenChange={setIsAddDialogOpen}
@@ -108,14 +108,14 @@ export default function ListUsers() {
                             </Dialog>
                         </TableCaption>
                         <TableHeader>
-                            <TableRow className="bg-slate-800/50 hover:bg-slate-800/50 border-b-2 border-slate-800">
-                                <TableHead className="text-slate-200 font-semibold text-sm">
+                            <TableRow className="bg-purple-900/30 hover:bg-purple-900/30 border-b-2 border-purple-900/30">
+                                <TableHead className="text-purple-200 font-semibold text-sm">
                                     Nome
                                 </TableHead>
-                                <TableHead className="text-slate-200 font-semibold text-sm">
+                                <TableHead className="text-purple-200 font-semibold text-sm">
                                     Email
                                 </TableHead>
-                                <TableHead className="text-slate-200 font-semibold text-sm">
+                                <TableHead className="text-purple-200 font-semibold text-sm">
                                     ID
                                 </TableHead>
                             </TableRow>
@@ -128,8 +128,8 @@ export default function ListUsers() {
                                         className="text-center py-12"
                                     >
                                         <div className="flex justify-center items-center gap-2">
-                                            <div className="animate-spin h-5 w-5 text-blue-500 border-2 border-blue-500/30 rounded-full"></div>
-                                            <span className="text-slate-300 font-medium">
+                                            <div className="animate-spin h-5 w-5 text-pink-500 border-2 border-pink-500/30 rounded-full"></div>
+                                            <span className="text-purple-200 font-medium">
                                                 Carregando usuários...
                                             </span>
                                         </div>
@@ -141,7 +141,7 @@ export default function ListUsers() {
                                         colSpan={3}
                                         className="text-center py-12"
                                     >
-                                        <p className="text-slate-400 text-lg">
+                                        <p className="text-purple-300/70 text-lg">
                                             Nenhum usuário encontrado
                                         </p>
                                     </TableCell>
@@ -150,18 +150,18 @@ export default function ListUsers() {
                                 users.map((user) => (
                                     <TableRow
                                         key={user.id}
-                                        className="border-b border-slate-800 hover:bg-slate-800/50 transition-colors"
+                                        className="border-b border-purple-900/30 hover:bg-purple-900/20 transition-colors"
                                     >
-                                        <TableCell className="font-semibold text-slate-100 py-4">
+                                        <TableCell className="font-semibold text-purple-100 py-4">
                                             {user.name}
                                         </TableCell>
-                                        <TableCell className="text-slate-300 py-4">
+                                        <TableCell className="text-purple-200 py-4">
                                             {user.email}
                                         </TableCell>
-                                        <TableCell className="text-slate-400 text-sm font-mono py-4">
+                                        <TableCell className="text-purple-400 text-sm font-mono py-4">
                                             {user.id}
                                         </TableCell>
-                                        <TableCell className="text-slate-400 text-sm font-mono py-4">
+                                        <TableCell className="text-purple-400 text-sm font-mono py-4 flex justify-around">
                                             <Dialog
                                                 open={editingUserId === user.id}
                                                 onOpenChange={(open) => {
@@ -171,7 +171,7 @@ export default function ListUsers() {
                                                 }}
                                             >
                                                 <DialogTrigger asChild>
-                                                    <Button className="mr-1">
+                                                    <Button>
                                                         <Pencil />
                                                     </Button>
                                                 </DialogTrigger>

@@ -40,7 +40,7 @@ export default function RootLayout({
                 dmSans.variable,
             )}
         >
-            <body className="h-full bg-slate-950 text-slate-50">
+            <body className="h-full bg-slate-950 text-purple-100">
                 <SidebarProvider>
                     <AppSidebar />
                     <main className="w-screen h-screen overflow-auto bg-slate-950">

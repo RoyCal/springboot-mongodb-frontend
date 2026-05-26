@@ -17,7 +17,7 @@ export function AppSidebar() {
             icon: List,
             label: 'Listar usuários',
             href: '/',
-            color: 'from-blue-500 to-cyan-500',
+            color: 'from-pink-500 to-rose-500',
         },
         {
             icon: FileText,
@@ -28,16 +28,16 @@ export function AppSidebar() {
     ];
 
     return (
-        <Sidebar className="border-r border-slate-800 bg-linear-to-r from-slate-900 to-slate-950">
+        <Sidebar className="border-r border-purple-900/30 bg-linear-to-r from-slate-950 via-purple-950 to-slate-950">
             {/* Header */}
-            <SidebarHeader className="border-b border-slate-800 py-4 px-4">
+            <SidebarHeader className="border-b border-purple-900/30 py-4 px-4">
                 <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-linear-to-br from-blue-500 to-cyan-500 shadow-lg">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-linear-to-br from-pink-500 to-rose-500 shadow-lg">
                         <Code2 className="h-5 w-5 text-white" />
                     </div>
                     <div>
                         <p className="text-sm font-bold text-white">UserHub</p>
-                        <p className="text-xs text-slate-400">Management</p>
+                        <p className="text-xs text-purple-300/70">Management</p>
                     </div>
                 </div>
             </SidebarHeader>
@@ -45,7 +45,7 @@ export function AppSidebar() {
             {/* Content */}
             <SidebarContent className="px-3 py-6">
                 <SidebarGroup>
-                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4 px-2">
+                    <p className="text-xs font-semibold text-purple-300/70 uppercase tracking-wider mb-4 px-2">
                         Menu Principal
                     </p>
                     <SidebarMenu className="space-y-2">
@@ -59,7 +59,7 @@ export function AppSidebar() {
                                     >
                                         <Link
                                             href={item.href}
-                                            className="relative h-auto rounded-lg p-3 transition-all duration-300 hover:bg-slate-800/80"
+                                            className="relative h-auto rounded-lg p-3 transition-all duration-300 hover:bg-purple-800/40"
                                         >
                                             {/* Background com gradiente */}
                                             <div
@@ -76,12 +76,12 @@ export function AppSidebar() {
                                                 </div>
 
                                                 {/* Label */}
-                                                <span className="flex-1 text-sm font-medium text-slate-200 transition-colors duration-300 group-hover:text-white">
+                                                <span className="flex-1 text-sm font-medium text-purple-100 transition-colors duration-300 group-hover:text-white">
                                                     {item.label}
                                                 </span>
 
                                                 {/* Indicator */}
-                                                <div className="h-1.5 w-1.5 rounded-full bg-slate-700 opacity-0 transition-opacity duration-300 group-hover:bg-cyan-400 group-hover:opacity-100" />
+                                                <div className="h-1.5 w-1.5 rounded-full bg-purple-700 opacity-0 transition-opacity duration-300 group-hover:bg-pink-400 group-hover:opacity-100" />
                                             </div>
                                         </Link>
                                     </SidebarMenuButton>
@@ -93,14 +93,14 @@ export function AppSidebar() {
             </SidebarContent>
 
             {/* Footer */}
-            <SidebarFooter className="border-t border-slate-800 py-4 px-4">
+            <SidebarFooter className="border-t border-purple-900/30 py-4 px-4">
                 <div className="space-y-2">
-                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                    <p className="text-xs font-semibold text-purple-300/70 uppercase tracking-wider">
                         Status
                     </p>
-                    <div className="flex items-center gap-2 rounded-lg bg-slate-800/50 p-3">
+                    <div className="flex items-center gap-2 rounded-lg bg-purple-800/20 p-3">
                         <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                        <p className="text-xs text-slate-300">
+                        <p className="text-xs text-purple-200/70">
                             Sistema Operacional
                         </p>
                     </div>
