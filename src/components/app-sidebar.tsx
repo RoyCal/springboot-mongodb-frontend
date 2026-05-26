@@ -8,7 +8,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { List, Code2 } from 'lucide-react';
+import { List, Code2, FileText } from 'lucide-react';
 import Link from 'next/link';
 
 export function AppSidebar() {
@@ -18,6 +18,12 @@ export function AppSidebar() {
             label: 'Listar usuários',
             href: '/',
             color: 'from-blue-500 to-cyan-500',
+        },
+        {
+            icon: FileText,
+            label: 'Listar posts',
+            href: '/posts',
+            color: 'from-purple-500 to-pink-500',
         },
     ];
 

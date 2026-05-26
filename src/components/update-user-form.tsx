@@ -13,7 +13,7 @@ import {
 import { Input } from './ui/input';
 import { DialogFooter } from './ui/dialog';
 import { Button } from './ui/button';
-import { Loader2, Pencil, Plus } from 'lucide-react';
+import { Loader2, Pencil} from 'lucide-react';
 import { toast } from 'sonner';
 import { updateUser } from '@/actions/handle-api';
 

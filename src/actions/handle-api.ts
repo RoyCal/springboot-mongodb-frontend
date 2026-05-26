@@ -73,3 +73,57 @@ export const updateUser = async (
         console.log(error);
     }
 };
+
+export const findAllPosts = async () => {
+    const apiUrl = 'http://localhost:8080/posts';
+
+    try {
+        const response = await fetch(apiUrl, { method: 'GET' });
+
+        const data = await response.json();
+
+        return data;
+    } catch (error) {
+        console.log('Error: ', error);
+
+        return [];
+    }
+};
+
+export const addPost = async (
+    title: string,
+    body: string,
+    authorId: string,
+) => {
+    const apiUrl = 'http://localhost:8080/posts';
+
+    try {
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title: title,
+                body: body,
+                authorId: authorId,
+            }),
+        });
+
+        return response.status === 201;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const deletePost = async (postId: string) => {
+    const apiUrl = `http://localhost:8080/posts/${postId}`;
+
+    try {
+        const response = await fetch(apiUrl, { method: 'DELETE' });
+
+        return response.status === 204;
+    } catch (error) {
+        console.log('Error: ', error);
+    }
+};

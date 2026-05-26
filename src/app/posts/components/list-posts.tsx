@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { deleteUser, findAllUsers } from '@/actions/handle-api';
+import { deletePost, findAllPosts, findAllUsers } from '@/actions/handle-api';
 import {
     TableCaption,
     TableHeader,
@@ -10,7 +10,7 @@ import {
     TableBody,
     TableCell,
     Table,
-} from './ui/table';
+} from '../../../components/ui/table';
 import {
     Dialog,
     DialogTrigger,
@@ -19,31 +19,56 @@ import {
     DialogTitle,
     DialogDescription,
     DialogFooter,
-} from './ui/dialog';
-import { Button } from './ui/button';
-import { Pencil, Plus, Trash2 } from 'lucide-react';
-import UserForm from './add-user-form';
+} from '../../../components/ui/dialog';
+import { Button } from '../../../components/ui/button';
+import { Plus, Trash2 } from 'lucide-react';
+import AddPostForm from './add-post-form';
 import { toast } from 'sonner';
-import UserUpdateForm from './update-user-form';
+
+interface Post {
+    id: string;
+    title: string;
+    body: string;
+    author: {
+        id: string
+        name: string
+    };
+}
 
 interface User {
     id: string;
     name: string;
-    email: string;
+    email: string
 }
 
-export default function ListUsers() {
+export default function ListPosts() {
+    const [posts, setPosts] = useState<Post[]>([]);
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-    const [editingUserId, setEditingUserId] = useState<string | null>(null);
 
-    const handleDeleteUser = async (userId: string) => {
-        deleteUser(userId);
+    const getUserName = (authorId: string) => {
+        const user = users.find((u) => u.id === authorId);
+        return user?.name || 'Desconhecido';
+    };
 
-        toast.success('Usuário deletado com sucesso');
+    const handleDeletePost = async (postId: string) => {
+        deletePost(postId);
 
-        await fetchUsers();
+        toast.success('Post deletado com sucesso');
+
+        await fetchPosts();
+    };
+
+    const fetchPosts = async () => {
+        try {
+            const data = await findAllPosts();
+            setPosts(data);
+        } catch (error) {
+            console.error('Erro ao buscar posts:', error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const fetchUsers = async () => {
@@ -58,28 +83,29 @@ export default function ListUsers() {
     };
 
     useEffect(() => {
+        fetchPosts();
         // eslint-disable-next-line react-hooks/set-state-in-effect
         fetchUsers();
     }, []);
 
     return (
         <div className="h-full bg-linear-to-br from-slate-950 via-slate-800 to-slate-950 py-12 px-4 sm:px-6 lg:px-8 overflow-auto">
-            <div className="max-w-5xl mx-auto">
+            <div className="max-w-6xl mx-auto">
                 {/* Header */}
-                <div className="mb-12 text-center absolute left-1/2 -translate-x-1/2">
+                <div className="mb-12 text-center">
                     <h1 className="text-4xl font-bold text-white mb-2">
-                        Gestão de Usuários
+                        Gestão de Posts
                     </h1>
                     <p className="text-slate-400 text-lg">
-                        Visualize e gerencie todos os usuários do sistema
+                        Visualize e gerencie todos os posts do sistema
                     </p>
                 </div>
 
                 {/* Table Container */}
-                <div className="bg-slate-900 rounded-lg shadow-2xl border border-slate-800 overflow-hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <div className="bg-slate-900 rounded-lg shadow-2xl border border-slate-800 overflow-hidden">
                     <Table>
                         <TableCaption className="text-slate-400 py-4 px-6 border-t border-slate-800">
-                            Listagem completa de usuários cadastrados no sistema
+                            Listagem completa de posts cadastrados no sistema
                         </TableCaption>
                         <TableCaption className="text-slate-400 py-4 px-6 border-t border-slate-800">
                             <Dialog
@@ -94,14 +120,15 @@ export default function ListUsers() {
                                 <DialogContent>
                                     <DialogHeader>
                                         <DialogTitle>
-                                            Adicionar usuário
+                                            Adicionar post
                                         </DialogTitle>
                                         <DialogDescription></DialogDescription>
                                     </DialogHeader>
-                                    <UserForm
+                                    <AddPostForm
+                                        users={users}
                                         onSuccess={async () => {
                                             setIsAddDialogOpen(false);
-                                            await fetchUsers();
+                                            await fetchPosts();
                                         }}
                                     />
                                 </DialogContent>
@@ -110,13 +137,16 @@ export default function ListUsers() {
                         <TableHeader>
                             <TableRow className="bg-slate-800/50 hover:bg-slate-800/50 border-b-2 border-slate-800">
                                 <TableHead className="text-slate-200 font-semibold text-sm">
-                                    Nome
+                                    Título
                                 </TableHead>
                                 <TableHead className="text-slate-200 font-semibold text-sm">
-                                    Email
+                                    Conteúdo
                                 </TableHead>
                                 <TableHead className="text-slate-200 font-semibold text-sm">
-                                    ID
+                                    Autor
+                                </TableHead>
+                                <TableHead className="text-slate-200 font-semibold text-sm">
+                                    Ações
                                 </TableHead>
                             </TableRow>
                         </TableHeader>
@@ -124,77 +154,44 @@ export default function ListUsers() {
                             {loading ? (
                                 <TableRow>
                                     <TableCell
-                                        colSpan={3}
+                                        colSpan={4}
                                         className="text-center py-12"
                                     >
                                         <div className="flex justify-center items-center gap-2">
                                             <div className="animate-spin h-5 w-5 text-blue-500 border-2 border-blue-500/30 rounded-full"></div>
                                             <span className="text-slate-300 font-medium">
-                                                Carregando usuários...
+                                                Carregando posts...
                                             </span>
                                         </div>
                                     </TableCell>
                                 </TableRow>
-                            ) : users.length === 0 ? (
+                            ) : posts.length === 0 ? (
                                 <TableRow>
                                     <TableCell
-                                        colSpan={3}
+                                        colSpan={4}
                                         className="text-center py-12"
                                     >
                                         <p className="text-slate-400 text-lg">
-                                            Nenhum usuário encontrado
+                                            Nenhum post encontrado
                                         </p>
                                     </TableCell>
                                 </TableRow>
                             ) : (
-                                users.map((user) => (
+                                posts.map((post) => (
                                     <TableRow
-                                        key={user.id}
+                                        key={post.id}
                                         className="border-b border-slate-800 hover:bg-slate-800/50 transition-colors"
                                     >
-                                        <TableCell className="font-semibold text-slate-100 py-4">
-                                            {user.name}
+                                        <TableCell className="font-semibold text-slate-100 py-4 max-w-xs truncate">
+                                            {post.title}
+                                        </TableCell>
+                                        <TableCell className="text-slate-300 py-4 max-w-md truncate">
+                                            {post.body}
                                         </TableCell>
                                         <TableCell className="text-slate-300 py-4">
-                                            {user.email}
+                                            {getUserName(post.author.id)}
                                         </TableCell>
                                         <TableCell className="text-slate-400 text-sm font-mono py-4">
-                                            {user.id}
-                                        </TableCell>
-                                        <TableCell className="text-slate-400 text-sm font-mono py-4">
-                                            <Dialog
-                                                open={editingUserId === user.id}
-                                                onOpenChange={(open) => {
-                                                    setEditingUserId(
-                                                        open ? user.id : null,
-                                                    );
-                                                }}
-                                            >
-                                                <DialogTrigger asChild>
-                                                    <Button className="mr-1">
-                                                        <Pencil />
-                                                    </Button>
-                                                </DialogTrigger>
-                                                <DialogContent>
-                                                    <DialogHeader>
-                                                        <DialogTitle>
-                                                            Editar usuário
-                                                        </DialogTitle>
-                                                        <DialogDescription></DialogDescription>
-                                                    </DialogHeader>
-                                                    <UserUpdateForm
-                                                        userId={user.id}
-                                                        name={user.name}
-                                                        email={user.email}
-                                                        onSuccess={async () => {
-                                                            setEditingUserId(
-                                                                null,
-                                                            );
-                                                            await fetchUsers();
-                                                        }}
-                                                    />
-                                                </DialogContent>
-                                            </Dialog>
                                             <Dialog>
                                                 <DialogTrigger asChild>
                                                     <Button className="bg-red-900 hover:bg-red-950">
@@ -204,27 +201,24 @@ export default function ListUsers() {
                                                 <DialogContent>
                                                     <DialogHeader>
                                                         <DialogTitle>
-                                                            Tem certeza que
-                                                            deseja deletar este
-                                                            usuário?
+                                                            Deletar post
                                                         </DialogTitle>
                                                         <DialogDescription>
-                                                            Essa ação não pode
-                                                            ser desfeita. Você
-                                                            terá que adicionar o
-                                                            usuário novamente!
+                                                            Tem certeza que
+                                                            deseja deletar este
+                                                            post?
                                                         </DialogDescription>
                                                     </DialogHeader>
                                                     <DialogFooter>
                                                         <Button
-                                                            onClick={() =>
-                                                                handleDeleteUser(
-                                                                    user.id,
-                                                                )
-                                                            }
                                                             className="bg-red-900 hover:bg-red-950"
+                                                            onClick={() => {
+                                                                handleDeletePost(
+                                                                    post.id,
+                                                                );
+                                                            }}
                                                         >
-                                                            <Trash2 />
+                                                            Deletar
                                                         </Button>
                                                     </DialogFooter>
                                                 </DialogContent>
