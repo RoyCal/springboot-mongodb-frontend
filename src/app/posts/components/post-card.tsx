@@ -154,7 +154,7 @@ export function PostCard({
                         </AlertDialog>
                     </div>
 
-                    <CollapsibleContent className="space-y-4 pt-4">
+                    <CollapsibleContent className="space-y-4 pt-4 overflow-hidden data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up duration-300">
                         {comments.map((comment) => (
                             <CommentCard
                                 author={comment.author}
