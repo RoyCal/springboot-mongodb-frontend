@@ -25,6 +25,7 @@ import { Pencil, Plus, Trash2 } from 'lucide-react';
 import UserForm from './add-user-form';
 import { toast } from 'sonner';
 import UserUpdateForm from './update-user-form';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
 
 interface User {
     id: string;
@@ -195,40 +196,40 @@ export default function ListUsers() {
                                                     />
                                                 </DialogContent>
                                             </Dialog>
-                                            <Dialog>
-                                                <DialogTrigger asChild>
+                                            <AlertDialog>
+                                                <AlertDialogTrigger asChild>
                                                     <Button className="bg-red-900 hover:bg-red-950">
                                                         <Trash2 />
                                                     </Button>
-                                                </DialogTrigger>
-                                                <DialogContent>
-                                                    <DialogHeader>
-                                                        <DialogTitle>
+                                                </AlertDialogTrigger>
+                                                <AlertDialogContent>
+                                                    <AlertDialogHeader>
+                                                        <AlertDialogTitle>
                                                             Tem certeza que
                                                             deseja deletar este
                                                             usuário?
-                                                        </DialogTitle>
-                                                        <DialogDescription>
+                                                        </AlertDialogTitle>
+                                                        <AlertDialogDescription>
                                                             Essa ação não pode
                                                             ser desfeita. Você
                                                             terá que adicionar o
                                                             usuário novamente!
-                                                        </DialogDescription>
-                                                    </DialogHeader>
-                                                    <DialogFooter>
-                                                        <Button
-                                                            onClick={() =>
+                                                        </AlertDialogDescription>
+                                                    </AlertDialogHeader>
+                                                    <AlertDialogFooter>
+                                                        <AlertDialogCancel>
+                                                            Cancelar
+                                                        </AlertDialogCancel>
+                                                        <AlertDialogAction onClick={() =>
                                                                 handleDeleteUser(
                                                                     user.id,
                                                                 )
-                                                            }
-                                                            className="bg-red-900 hover:bg-red-950"
-                                                        >
-                                                            <Trash2 />
-                                                        </Button>
-                                                    </DialogFooter>
-                                                </DialogContent>
-                                            </Dialog>
+                                                            }>
+                                                            Deletar
+                                                        </AlertDialogAction>
+                                                    </AlertDialogFooter>
+                                                </AlertDialogContent>
+                                            </AlertDialog>
                                         </TableCell>
                                     </TableRow>
                                 ))
