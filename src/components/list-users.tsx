@@ -1,31 +1,30 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { deleteUser, findAllUsers } from '@/actions/handle-api';
-import {
-    TableCaption,
-    TableHeader,
-    TableRow,
-    TableHead,
-    TableBody,
-    TableCell,
-    Table,
-} from './ui/table';
+import { Pencil, Plus, Trash2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
+import UserForm from './add-user-form';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
+import { Button } from './ui/button';
 import {
     Dialog,
-    DialogTrigger,
     DialogContent,
+    DialogDescription,
     DialogHeader,
     DialogTitle,
-    DialogDescription,
-    DialogFooter,
+    DialogTrigger
 } from './ui/dialog';
-import { Button } from './ui/button';
-import { Pencil, Plus, Trash2 } from 'lucide-react';
-import UserForm from './add-user-form';
-import { toast } from 'sonner';
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from './ui/table';
 import UserUpdateForm from './update-user-form';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
 
 interface User {
     id: string;
@@ -59,7 +58,6 @@ export default function ListUsers() {
     };
 
     useEffect(() => {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
         fetchUsers();
     }, []);
 

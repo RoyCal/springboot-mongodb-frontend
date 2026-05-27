@@ -70,7 +70,7 @@ export function PostCard({
                 </div>
                 <span className="mt-3 text-lg font-bold">{title}</span>
             </CardHeader>
-            <CardContent className="bg-black/30 py-5 rounded-3xl mx-5">
+            <CardContent className="bg-black/30 py-5 rounded-3xl mx-5 whitespace-pre-line">
                 <span>{body}</span>
             </CardContent>
             <CardFooter>
