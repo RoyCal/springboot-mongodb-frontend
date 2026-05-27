@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/app-sidebar';
 import { Toaster } from 'sonner';
+import { ApiProvider } from './utils/ApiContext';
 
 const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -41,14 +42,16 @@ export default function RootLayout({
             )}
         >
             <body className="h-full bg-slate-950 text-purple-100">
-                <SidebarProvider>
-                    <AppSidebar />
-                    <main className="w-screen h-screen overflow-auto bg-slate-950">
-                        <SidebarTrigger className="absolute hover:bg-slate-700" />
-                        {children}
-                    </main>
-                </SidebarProvider>
-                <Toaster />
+                <ApiProvider>
+                    <SidebarProvider>
+                        <AppSidebar />
+                        <main className="w-screen h-screen overflow-auto bg-slate-950">
+                            <SidebarTrigger className="absolute hover:bg-slate-700" />
+                            {children}
+                        </main>
+                    </SidebarProvider>
+                    <Toaster />
+                </ApiProvider>
             </body>
         </html>
     );

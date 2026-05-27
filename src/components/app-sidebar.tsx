@@ -1,3 +1,7 @@
+'use client';
+
+import { apiOn } from '@/actions/handle-api';
+import { useApi } from '@/app/utils/ApiContext';
 import {
     Sidebar,
     SidebarContent,
@@ -10,8 +14,47 @@ import {
 } from '@/components/ui/sidebar';
 import { List, Code2, FileText } from 'lucide-react';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 export function AppSidebar() {
+    const { isApiOn, setIsApiOn } = useApi();
+
+    useEffect(() => {
+        if (!isApiOn) {
+            let intervalId: NodeJS.Timeout;
+
+            const checkApi = async () => {
+                const state = await apiOn();
+
+                setIsApiOn(state);
+
+                if (state) {
+                    clearInterval(intervalId);
+
+                    // API voltou
+                    window.location.reload();
+                }
+            };
+
+            const init = async () => {
+                const initialState = await apiOn();
+
+                setIsApiOn(initialState);
+
+                // só começa a monitorar se estiver offline
+                if (!initialState) {
+                    intervalId = setInterval(checkApi, 2000);
+                }
+            };
+
+            init();
+
+            return () => {
+                if (intervalId) clearInterval(intervalId);
+            };
+        }
+    }, [isApiOn, setIsApiOn]);
+
     const menuItems = [
         {
             icon: List,
@@ -63,14 +106,14 @@ export function AppSidebar() {
                                         >
                                             {/* Background com gradiente */}
                                             <div
-                                                className={`absolute inset-0 rounded-lg bg-gradient-to-r ${item.color} opacity-0 transition-opacity duration-300 group-hover:opacity-10`}
+                                                className={`absolute inset-0 rounded-lg bg-linear-to-r ${item.color} opacity-0 transition-opacity duration-300 group-hover:opacity-10`}
                                             />
 
                                             {/* Content */}
                                             <div className="relative flex w-full items-center gap-3">
                                                 {/* Icon Box */}
                                                 <div
-                                                    className={`flex h-9 w-9 items-center justify-center rounded-md bg-gradient-to-br ${item.color} shrink-0 shadow-md transition-transform duration-300 group-hover:scale-110`}
+                                                    className={`flex h-9 w-9 items-center justify-center rounded-md bg-linear-to-br ${item.color} shrink-0 shadow-md transition-transform duration-300 group-hover:scale-110`}
                                                 >
                                                     <Icon className="h-4 w-4 text-white" />
                                                 </div>
@@ -98,12 +141,21 @@ export function AppSidebar() {
                     <p className="text-xs font-semibold text-purple-300/70 uppercase tracking-wider">
                         Status
                     </p>
-                    <div className="flex items-center gap-2 rounded-lg bg-purple-800/20 p-3">
-                        <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                        <p className="text-xs text-purple-200/70">
-                            Sistema Operacional
-                        </p>
-                    </div>
+                    {isApiOn ? (
+                        <div className="flex items-center gap-2 rounded-lg bg-purple-800/20 p-3">
+                            <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+                            <p className="text-xs text-purple-200/70">
+                                Sistema Operacional
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="flex items-center gap-2 rounded-lg bg-purple-800/20 p-3">
+                            <div className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+                            <p className="text-xs text-purple-200/70">
+                                API fora do ar
+                            </p>
+                        </div>
+                    )}
                 </div>
             </SidebarFooter>
         </Sidebar>

@@ -1,6 +1,6 @@
 'use client';
 
-import { deletePost, findAllPosts, findAllUsers } from '@/actions/handle-api';
+import { apiOn, deletePost, findAllPosts, findAllUsers } from '@/actions/handle-api';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -17,6 +17,7 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import AddPostForm from './add-post-form';
+import { useApi } from '@/app/utils/ApiContext';
 
 interface Post {
     id: string;
@@ -46,6 +47,8 @@ interface User {
 }
 
 export default function ListPosts() {
+    const { setIsApiOn } = useApi();
+
     const [posts, setPosts] = useState<Post[]>([]);
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
@@ -80,6 +83,10 @@ export default function ListPosts() {
 
                 setPosts(postsData);
                 setUsers(usersData);
+
+                if (postsData.length === 0) {
+                    setIsApiOn(await apiOn());
+                }
             } catch (error) {
                 console.error(error);
             } finally {
@@ -88,7 +95,7 @@ export default function ListPosts() {
         }
 
         loadData();
-    }, []);
+    }, [posts.length, setIsApiOn]);
 
     return (
         <div className="h-full bg-linear-to-br from-slate-950 via-purple-950 to-slate-950 py-12 px-4 sm:px-6 lg:px-8">
@@ -105,7 +112,7 @@ export default function ListPosts() {
 
                 {/* Scroll Container */}
                 <ScrollArea className="h-250 rounded-t-3xl">
-                    {loading ? (
+                    {loading || posts.length === 0 ? (
                         <PostSkeleton />
                     ) : (
                         <div className="space-y-10">

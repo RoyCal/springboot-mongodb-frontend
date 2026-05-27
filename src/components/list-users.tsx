@@ -1,11 +1,21 @@
 'use client';
 
-import { deleteUser, findAllUsers } from '@/actions/handle-api';
+import { apiOn, deleteUser, findAllUsers } from '@/actions/handle-api';
 import { Pencil, Plus, Trash2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import UserForm from './add-user-form';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from './ui/alert-dialog';
 import { Button } from './ui/button';
 import {
     Dialog,
@@ -13,7 +23,7 @@ import {
     DialogDescription,
     DialogHeader,
     DialogTitle,
-    DialogTrigger
+    DialogTrigger,
 } from './ui/dialog';
 import {
     Table,
@@ -25,6 +35,7 @@ import {
     TableRow,
 } from './ui/table';
 import UserUpdateForm from './update-user-form';
+import { useApi } from '@/app/utils/ApiContext';
 
 interface User {
     id: string;
@@ -33,6 +44,8 @@ interface User {
 }
 
 export default function ListUsers() {
+    const { setIsApiOn } = useApi();
+
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
@@ -46,20 +59,25 @@ export default function ListUsers() {
         await fetchUsers();
     };
 
-    const fetchUsers = async () => {
+    const fetchUsers = useCallback(async () => {
         try {
             const data = await findAllUsers();
+
             setUsers(data);
+
+            if (data.length === 0) {
+                setIsApiOn(await apiOn());
+            }
         } catch (error) {
             console.error('Erro ao buscar usuários:', error);
         } finally {
             setLoading(false);
         }
-    };
+    }, [setIsApiOn]);
 
     useEffect(() => {
         fetchUsers();
-    }, []);
+    }, [fetchUsers]);
 
     return (
         <div className="h-full bg-linear-to-br from-slate-950 via-purple-950 to-slate-950 py-12 px-4 sm:px-6 lg:px-8 overflow-auto">
@@ -218,11 +236,13 @@ export default function ListUsers() {
                                                         <AlertDialogCancel>
                                                             Cancelar
                                                         </AlertDialogCancel>
-                                                        <AlertDialogAction onClick={() =>
+                                                        <AlertDialogAction
+                                                            onClick={() =>
                                                                 handleDeleteUser(
                                                                     user.id,
                                                                 )
-                                                            }>
+                                                            }
+                                                        >
                                                             Deletar
                                                         </AlertDialogAction>
                                                     </AlertDialogFooter>

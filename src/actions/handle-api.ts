@@ -1,5 +1,19 @@
 'use server';
 
+export const apiOn = async () => {
+    const apiUrl = 'http://localhost:8080/users'
+
+    try {
+        const response = await fetch(apiUrl, { method: 'GET' });
+
+        return response.status === 200;
+    } catch (error) {
+        console.log('Error: ', error);
+
+        return false;
+    }
+}
+
 export const findAllUsers = async () => {
     const apiUrl = 'http://localhost:8080/users';
 
