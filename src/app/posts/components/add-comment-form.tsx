@@ -8,20 +8,19 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from '../../../components/ui/form';
-import { Input } from '../../../components/ui/input';
-import { DialogFooter } from '../../../components/ui/dialog';
-import { Button } from '../../../components/ui/button';
-import { Loader2, Plus } from 'lucide-react';
+} from '@/components/ui/form';
+import { DialogFooter } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Loader2, Send } from 'lucide-react';
 import { toast } from 'sonner';
-import { addPost } from '@/actions/handle-api';
+import { insertComment } from '@/actions/handle-api';
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '../../../components/ui/select';
+} from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 
 interface User {
@@ -29,37 +28,35 @@ interface User {
     name: string;
 }
 
-const postFormSchema = z.object({
-    title: z.string().trim().min(1, { message: 'Título é obrigatório' }),
-    body: z.string().trim().min(1, { message: 'Conteúdo é obrigatório' }),
+interface AddCommentFormProps {
+    postId: string;
+    users: User[];
+    onSuccess: () => void;
+}
+
+const commentFormSchema = z.object({
+    text: z.string().trim().min(1, { message: 'Comentário é obrigatório' }),
     authorId: z.string().min(1, { message: 'Autor é obrigatório' }),
 });
 
-const AddPostForm = ({
-    users,
-    onSuccess,
-}: {
-    users: User[];
-    onSuccess: () => void;
-}) => {
-    const form = useForm<z.infer<typeof postFormSchema>>({
-        resolver: zodResolver(postFormSchema),
+const AddCommentForm = ({ postId, users, onSuccess }: AddCommentFormProps) => {
+    const form = useForm<z.infer<typeof commentFormSchema>>({
+        resolver: zodResolver(commentFormSchema),
         defaultValues: {
-            title: '',
-            body: '',
+            text: '',
             authorId: '',
         },
     });
 
-    async function onSubmit(data: z.infer<typeof postFormSchema>) {
-        const added = await addPost(data.title, data.body, data.authorId);
+    async function onSubmit(data: z.infer<typeof commentFormSchema>) {
+        const added = await insertComment(postId, data.authorId, data.text);
 
         if (added) {
-            toast.success('Post adicionado com sucesso');
+            toast.success('Comentário adicionado com sucesso');
             form.reset();
             onSuccess();
         } else {
-            toast.error('Erro ao adicionar post');
+            toast.error('Erro ao adicionar comentário');
         }
     }
 
@@ -72,31 +69,15 @@ const AddPostForm = ({
                 >
                     <FormField
                         control={form.control}
-                        name="title"
+                        name="text"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Título</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        placeholder="Digite o título do post"
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="body"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Conteúdo</FormLabel>
+                                <FormLabel>Comentário</FormLabel>
                                 <FormControl>
                                     <Textarea
                                         {...field}
-                                        placeholder="Digite o conteúdo do post"
-                                        className="min-h-32 w-full rounded-md border border-purple-700 bg-slate-950 px-3 py-2 text-purple-100 placeholder-purple-500 focus:border-pink-500 focus:outline-none"
+                                        placeholder="Digite seu comentário"
+                                        className="min-h-20 w-full rounded-md border border-purple-700 bg-slate-950 px-3 py-2 text-purple-100 placeholder-purple-500 focus:border-pink-500 focus:outline-none"
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -141,7 +122,7 @@ const AddPostForm = ({
                             {form.formState.isSubmitting ? (
                                 <Loader2 className="h-4 w-4 animate-spin" />
                             ) : (
-                                <Plus />
+                                <Send className="h-4 w-4" />
                             )}
                         </Button>
                     </DialogFooter>
@@ -151,4 +132,4 @@ const AddPostForm = ({
     );
 };
 
-export default AddPostForm;
+export default AddCommentForm;

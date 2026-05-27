@@ -111,6 +111,8 @@ export default function ListPosts() {
                         <div className="space-y-10">
                             {posts.map((post) => (
                                 <PostCard
+                                    id={post.id}
+                                    users={users}
                                     title={post.title}
                                     user={
                                         users.find(
@@ -123,6 +125,7 @@ export default function ListPosts() {
                                     handleDelete={() =>
                                         handleDeletePost(post.id)
                                     }
+                                    onCommentAdded={() => fetchPosts()}
                                     key={post.id}
                                 />
                             ))}
@@ -135,8 +138,10 @@ export default function ListPosts() {
                     open={isAddDialogOpen}
                     onOpenChange={setIsAddDialogOpen}
                 >
-                    <div className='text-center'>
-                        <span className="text-sm text-white/50">Adicionar post</span>
+                    <div className="text-center">
+                        <span className="text-sm text-white/50">
+                            Adicionar post
+                        </span>
                         <DialogTrigger asChild>
                             <Button className="mx-auto flex w-40">
                                 <Plus />

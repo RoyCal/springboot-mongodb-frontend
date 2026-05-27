@@ -127,3 +127,36 @@ export const deletePost = async (postId: string) => {
         console.log('Error: ', error);
     }
 };
+
+export const insertComment = async (postId: string, authorId: string, text: string) => {
+    const apiUrl = `http://localhost:8080/posts/${postId}/comments`;
+
+    try {
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                text: text,
+                authorId: authorId,
+            }),
+        });
+
+        return response.status === 201;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const deleteComment = async (postId: string, commentId: string) => {
+    const apiUrl = `http://localhost:8080/posts/${postId}/comments/${commentId}`;
+
+    try {
+        const response = await fetch(apiUrl, { method: 'DELETE' });
+
+        return response.status === 204;
+    } catch (error) {
+        console.log('Error: ', error);
+    }
+}
