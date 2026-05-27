@@ -42,7 +42,7 @@ interface PostCardProps {
     date: string;
     title: string;
     body: string;
-    user: {
+    author: {
         id: string;
         name: string;
         email: string;
@@ -71,7 +71,7 @@ export function PostCard({
     date,
     title,
     body,
-    user,
+    author,
     comments,
     handleDelete,
     onCommentAdded,
@@ -89,7 +89,7 @@ export function PostCard({
 
     const formattedDate = new Date(date).toLocaleDateString('pt-BR');
 
-    const authorInitials = user.name
+    const authorInitials = author.name
         .split(' ')
         .map((word) => word[0])
         .join('');
@@ -103,8 +103,8 @@ export function PostCard({
                             <AvatarFallback>{authorInitials}</AvatarFallback>
                         </Avatar>
                         <div className="flex flex-col">
-                            <span className="text-accent">{user.email}</span>
-                            <span className="text-lg">{user.name}</span>
+                            <span className="text-accent">{author.email}</span>
+                            <span className="text-lg">{author.name}</span>
                         </div>
                     </div>
                     <div>

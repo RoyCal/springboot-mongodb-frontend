@@ -27,6 +27,7 @@ interface Post {
     author: {
         id: string;
         name: string;
+        email: string
     };
     comments: {
         id: string;
@@ -36,6 +37,7 @@ interface Post {
         author: {
             id: string;
             name: string;
+            email: string
         };
     }[];
 }
@@ -121,11 +123,7 @@ export default function ListPosts() {
                                     id={post.id}
                                     users={users}
                                     title={post.title}
-                                    user={
-                                        users.find(
-                                            (u) => u.id === post.author.id,
-                                        )!
-                                    }
+                                    author={post.author}
                                     body={post.body}
                                     date={post.date}
                                     comments={post.comments}
