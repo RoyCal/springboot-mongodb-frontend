@@ -73,25 +73,29 @@ export function AppSidebar() {
     return (
         <Sidebar className="border-r border-purple-900/30 bg-linear-to-r from-slate-950 via-purple-950 to-slate-950">
             {/* Header */}
-            <SidebarHeader className="border-b border-purple-900/30 py-4 px-4">
-                <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-linear-to-br from-pink-500 to-rose-500 shadow-lg">
-                        <Code2 className="h-5 w-5 text-white" />
+            <SidebarHeader className="border-b border-purple-900/30 py-3 md:py-4 px-3 md:px-4">
+                <div className="flex items-center gap-2 md:gap-3">
+                    <div className="flex h-8 md:h-9 w-8 md:w-9 items-center justify-center rounded-lg bg-linear-to-br from-pink-500 to-rose-500 shadow-lg flex-shrink-0">
+                        <Code2 className="h-4 md:h-5 w-4 md:w-5 text-white" />
                     </div>
-                    <div>
-                        <p className="text-sm font-bold text-white">UserHub</p>
-                        <p className="text-xs text-purple-300/70">Management</p>
+                    <div className="min-w-0">
+                        <p className="text-xs md:text-sm font-bold text-white truncate">
+                            UserHub
+                        </p>
+                        <p className="text-xs text-purple-300/70 truncate">
+                            Management
+                        </p>
                     </div>
                 </div>
             </SidebarHeader>
 
             {/* Content */}
-            <SidebarContent className="px-3 py-6">
+            <SidebarContent className="px-2 md:px-3 py-4 md:py-6">
                 <SidebarGroup>
-                    <p className="text-xs font-semibold text-purple-300/70 uppercase tracking-wider mb-4 px-2">
-                        Menu Principal
+                    <p className="text-xs font-semibold text-purple-300/70 uppercase tracking-wider mb-3 md:mb-4 px-2">
+                        Menu
                     </p>
-                    <SidebarMenu className="space-y-2">
+                    <SidebarMenu className="space-y-1 md:space-y-2">
                         {menuItems.map((item, index) => {
                             const Icon = item.icon;
                             return (
@@ -102,7 +106,7 @@ export function AppSidebar() {
                                     >
                                         <Link
                                             href={item.href}
-                                            className="relative h-auto rounded-lg p-3 transition-all duration-300 hover:bg-purple-800/40"
+                                            className="relative h-auto rounded-lg p-2 md:p-3 transition-all duration-300 hover:bg-purple-800/40"
                                         >
                                             {/* Background com gradiente */}
                                             <div
@@ -110,21 +114,21 @@ export function AppSidebar() {
                                             />
 
                                             {/* Content */}
-                                            <div className="relative flex w-full items-center gap-3">
+                                            <div className="relative flex w-full items-center gap-2 md:gap-3">
                                                 {/* Icon Box */}
                                                 <div
-                                                    className={`flex h-9 w-9 items-center justify-center rounded-md bg-linear-to-br ${item.color} shrink-0 shadow-md transition-transform duration-300 group-hover:scale-110`}
+                                                    className={`flex h-8 md:h-9 w-8 md:w-9 items-center justify-center rounded-md bg-linear-to-br ${item.color} shrink-0 shadow-md transition-transform duration-300 group-hover:scale-110`}
                                                 >
-                                                    <Icon className="h-4 w-4 text-white" />
+                                                    <Icon className="h-3.5 md:h-4 w-3.5 md:w-4 text-white" />
                                                 </div>
 
                                                 {/* Label */}
-                                                <span className="flex-1 text-sm font-medium text-purple-100 transition-colors duration-300 group-hover:text-white">
+                                                <span className="flex-1 text-xs md:text-sm font-medium text-purple-100 transition-colors duration-300 group-hover:text-white truncate">
                                                     {item.label}
                                                 </span>
 
                                                 {/* Indicator */}
-                                                <div className="h-1.5 w-1.5 rounded-full bg-purple-700 opacity-0 transition-opacity duration-300 group-hover:bg-pink-400 group-hover:opacity-100" />
+                                                <div className="h-1 md:h-1.5 w-1 md:w-1.5 rounded-full bg-purple-700 opacity-0 transition-opacity duration-300 group-hover:bg-pink-400 group-hover:opacity-100 flex-shrink-0" />
                                             </div>
                                         </Link>
                                     </SidebarMenuButton>
@@ -136,22 +140,22 @@ export function AppSidebar() {
             </SidebarContent>
 
             {/* Footer */}
-            <SidebarFooter className="border-t border-purple-900/30 py-4 px-4">
+            <SidebarFooter className="border-t border-purple-900/30 py-3 md:py-4 px-3 md:px-4">
                 <div className="space-y-2">
                     <p className="text-xs font-semibold text-purple-300/70 uppercase tracking-wider">
                         Status
                     </p>
                     {isApiOn ? (
-                        <div className="flex items-center gap-2 rounded-lg bg-purple-800/20 p-3">
-                            <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                            <p className="text-xs text-purple-200/70">
+                        <div className="flex items-center gap-2 rounded-lg bg-purple-800/20 p-2 md:p-3">
+                            <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse flex-shrink-0" />
+                            <p className="text-xs text-purple-200/70 truncate">
                                 Sistema Operacional
                             </p>
                         </div>
                     ) : (
-                        <div className="flex items-center gap-2 rounded-lg bg-purple-800/20 p-3">
-                            <div className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
-                            <p className="text-xs text-purple-200/70">
+                        <div className="flex items-center gap-2 rounded-lg bg-purple-800/20 p-2 md:p-3">
+                            <div className="h-2 w-2 rounded-full bg-red-500 animate-pulse flex-shrink-0" />
+                            <p className="text-xs text-purple-200/70 truncate">
                                 API fora do ar
                             </p>
                         </div>

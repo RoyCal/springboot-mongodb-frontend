@@ -96,38 +96,49 @@ export function PostCard({
 
     return (
         <Card className="w-full bg-linear-to-br from-slate-950 via-purple-950 to-slate-950">
-            <CardHeader>
-                <div className="flex justify-between">
-                    <div className="flex space-x-3 items-center">
-                        <Avatar className="size-10">
-                            <AvatarFallback>{authorInitials}</AvatarFallback>
+            <CardHeader className="p-4 md:p-6">
+                <div className="flex flex-col md:flex-row md:justify-between gap-3 md:gap-0">
+                    <div className="flex space-x-3 items-start md:items-center">
+                        <Avatar className="size-8 md:size-10 flex-shrink-0">
+                            <AvatarFallback className="text-xs md:text-base">
+                                {authorInitials}
+                            </AvatarFallback>
                         </Avatar>
-                        <div className="flex flex-col">
-                            <span className="text-accent">{author.email}</span>
-                            <span className="text-lg">{author.name}</span>
+                        <div className="flex flex-col min-w-0">
+                            <span className="text-accent text-xs md:text-sm break-all">
+                                {author.email}
+                            </span>
+                            <span className="text-base md:text-lg font-semibold">
+                                {author.name}
+                            </span>
                         </div>
                     </div>
-                    <div>
+                    <div className="text-xs md:text-base text-purple-300/70 flex-shrink-0">
                         <span>{formattedDate}</span>
                     </div>
                 </div>
-                <span className="mt-3 text-lg font-bold">{title}</span>
+                <span className="mt-3 text-base md:text-lg font-bold block break-words">
+                    {title}
+                </span>
             </CardHeader>
-            <CardContent className="bg-black/30 py-5 rounded-3xl mx-5 whitespace-pre-line">
-                <span>{body}</span>
+            <CardContent className="bg-black/30 py-4 md:py-5 rounded-3xl mx-4 md:mx-5 whitespace-pre-line text-sm md:text-base overflow-hidden">
+                <span className="break-words">{body}</span>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="p-4 md:p-6">
                 <Collapsible className="w-full">
-                    <div className="flex justify-between">
+                    <div className="flex justify-between gap-2">
                         <CollapsibleTrigger asChild>
-                            <Button className="bg-transparent hover:bg-black/60 py-5">
-                                <MessageCircle className="size-6" />
+                            <Button className="bg-transparent hover:bg-black/60 py-2 md:py-5 flex-1 md:flex-none">
+                                <MessageCircle className="size-5 md:size-6" />
+                                <span className="ml-2 text-xs md:text-sm md:hidden">
+                                    Comentários
+                                </span>
                             </Button>
                         </CollapsibleTrigger>
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
-                                <Button className="bg-red-900 hover:bg-red-950 p-2">
-                                    <Trash2 />
+                                <Button className="bg-red-900 hover:bg-red-950 p-2 md:p-2">
+                                    <Trash2 className="size-4 md:size-5" />
                                 </Button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
@@ -154,7 +165,7 @@ export function PostCard({
                         </AlertDialog>
                     </div>
 
-                    <CollapsibleContent className="space-y-4 pt-4 overflow-hidden data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up duration-300">
+                    <CollapsibleContent className="space-y-3 md:space-y-4 pt-3 md:pt-4 overflow-hidden data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up duration-300">
                         {comments.map((comment) => (
                             <CommentCard
                                 author={comment.author}
@@ -171,19 +182,22 @@ export function PostCard({
                             open={isAddDialogOpen}
                             onOpenChange={setIsAddDialogOpen}
                         >
-                            <div className="text-center">
-                                <span className="text-sm text-white/50">
+                            <div className="text-center py-3 md:py-4">
+                                <span className="text-xs md:text-sm text-white/50 block mb-2 md:mb-3">
                                     Adicionar comentário
                                 </span>
                                 <DialogTrigger asChild>
-                                    <Button className="mx-auto flex w-40">
-                                        <Plus />
+                                    <Button className="mx-auto flex w-32 md:w-40 gap-2">
+                                        <Plus className="h-4 w-4" />
+                                        <span className="md:hidden">
+                                            Comentar
+                                        </span>
                                     </Button>
                                 </DialogTrigger>
                             </div>
-                            <DialogContent>
+                            <DialogContent className="max-h-[90vh] overflow-y-auto">
                                 <DialogHeader>
-                                    <DialogTitle>
+                                    <DialogTitle className="text-lg md:text-xl">
                                         Adicionar comentário
                                     </DialogTitle>
                                     <DialogDescription></DialogDescription>

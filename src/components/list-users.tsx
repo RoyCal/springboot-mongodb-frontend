@@ -80,37 +80,40 @@ export default function ListUsers() {
     }, [fetchUsers]);
 
     return (
-        <div className="h-full bg-linear-to-br from-slate-950 via-purple-950 to-slate-950 py-12 px-4 sm:px-6 lg:px-8 overflow-auto">
+        <div className="min-h-full bg-linear-to-br from-slate-950 via-purple-950 to-slate-950 py-8 md:py-12 px-4 sm:px-6 lg:px-8 overflow-auto">
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
-                <div className="mb-12 text-center">
-                    <h1 className="text-4xl font-bold text-white mb-2">
+                <div className="mb-8 md:mb-12 text-center">
+                    <h1 className="text-2xl md:text-4xl font-bold text-white mb-2">
                         Gestão de Usuários
                     </h1>
-                    <p className="text-purple-300/70 text-lg">
+                    <p className="text-purple-300/70 text-sm md:text-lg">
                         Visualize e gerencie todos os usuários do sistema
                     </p>
                 </div>
 
                 {/* Table Container */}
-                <div className="bg-purple-950/40 rounded-lg shadow-2xl border border-purple-900/30 overflow-hidden">
+                <div className="bg-purple-950/40 rounded-lg shadow-2xl border border-purple-900/30 overflow-x-auto md:overflow-visible">
                     <Table>
                         <TableCaption className="text-purple-300/70 py-4 px-6 border-t border-purple-900/30">
                             Listagem completa de usuários cadastrados no sistema
                         </TableCaption>
-                        <TableCaption className="text-purple-300/70 py-4 px-6 border-t border-purple-900/30">
+                        <TableCaption className="text-purple-300/70 py-3 md:py-4 px-4 md:px-6 border-t border-purple-900/30">
                             <Dialog
                                 open={isAddDialogOpen}
                                 onOpenChange={setIsAddDialogOpen}
                             >
                                 <DialogTrigger asChild>
-                                    <Button className="w-full">
-                                        <Plus />
+                                    <Button className="w-full md:w-60 gap-2">
+                                        <Plus className="h-4 w-4" />
+                                        <span className="md:hidden">
+                                            Novo Usuário
+                                        </span>
                                     </Button>
                                 </DialogTrigger>
-                                <DialogContent>
+                                <DialogContent className="max-h-[90vh] overflow-y-auto">
                                     <DialogHeader>
-                                        <DialogTitle>
+                                        <DialogTitle className="text-lg md:text-xl">
                                             Adicionar usuário
                                         </DialogTitle>
                                         <DialogDescription></DialogDescription>
@@ -126,13 +129,13 @@ export default function ListUsers() {
                         </TableCaption>
                         <TableHeader>
                             <TableRow className="bg-purple-900/30 hover:bg-purple-900/30 border-b-2 border-purple-900/30">
-                                <TableHead className="text-purple-200 font-semibold text-sm">
+                                <TableHead className="text-purple-200 font-semibold text-xs md:text-sm whitespace-nowrap">
                                     Nome
                                 </TableHead>
-                                <TableHead className="text-purple-200 font-semibold text-sm">
+                                <TableHead className="text-purple-200 font-semibold text-xs md:text-sm whitespace-nowrap">
                                     Email
                                 </TableHead>
-                                <TableHead className="text-purple-200 font-semibold text-sm">
+                                <TableHead className="text-purple-200 font-semibold text-xs md:text-sm whitespace-nowrap hidden md:table-cell">
                                     ID
                                 </TableHead>
                             </TableRow>
@@ -142,11 +145,11 @@ export default function ListUsers() {
                                 <TableRow>
                                     <TableCell
                                         colSpan={3}
-                                        className="text-center py-12"
+                                        className="text-center py-8 md:py-12"
                                     >
                                         <div className="flex justify-center items-center gap-2">
                                             <div className="animate-spin h-5 w-5 text-pink-500 border-2 border-pink-500/30 rounded-full"></div>
-                                            <span className="text-purple-200 font-medium">
+                                            <span className="text-purple-200 font-medium text-sm md:text-base">
                                                 Carregando usuários...
                                             </span>
                                         </div>
@@ -156,9 +159,9 @@ export default function ListUsers() {
                                 <TableRow>
                                     <TableCell
                                         colSpan={3}
-                                        className="text-center py-12"
+                                        className="text-center py-8 md:py-12"
                                     >
-                                        <p className="text-purple-300/70 text-lg">
+                                        <p className="text-purple-300/70 text-sm md:text-lg">
                                             Nenhum usuário encontrado
                                         </p>
                                     </TableCell>
@@ -169,16 +172,16 @@ export default function ListUsers() {
                                         key={user.id}
                                         className="border-b border-purple-900/30 hover:bg-purple-900/20 transition-colors"
                                     >
-                                        <TableCell className="font-semibold text-purple-100 py-4">
+                                        <TableCell className="font-semibold text-purple-100 py-3 md:py-4 text-xs md:text-sm">
                                             {user.name}
                                         </TableCell>
-                                        <TableCell className="text-purple-200 py-4">
+                                        <TableCell className="text-purple-200 py-3 md:py-4 text-xs md:text-sm whitespace-nowrap">
                                             {user.email}
                                         </TableCell>
-                                        <TableCell className="text-purple-400 text-sm font-mono py-4">
+                                        <TableCell className="text-purple-400 text-xs md:text-sm font-mono py-3 md:py-4 hidden md:table-cell">
                                             {user.id}
                                         </TableCell>
-                                        <TableCell className="text-purple-400 text-sm font-mono py-4 flex justify-around">
+                                        <TableCell className="text-purple-400 text-sm font-mono py-3 md:py-4 flex justify-center md:justify-around gap-1 md:gap-0">
                                             <Dialog
                                                 open={editingUserId === user.id}
                                                 onOpenChange={(open) => {
@@ -188,13 +191,19 @@ export default function ListUsers() {
                                                 }}
                                             >
                                                 <DialogTrigger asChild>
-                                                    <Button>
-                                                        <Pencil />
+                                                    <Button
+                                                        size="sm"
+                                                        className="px-2 md:px-4 h-8 md:h-auto md:py-2"
+                                                    >
+                                                        <Pencil className="h-3 md:h-4 w-3 md:w-4" />
+                                                        <span className="ml-1 md:ml-2 hidden md:inline text-xs md:text-sm">
+                                                            Editar
+                                                        </span>
                                                     </Button>
                                                 </DialogTrigger>
-                                                <DialogContent>
+                                                <DialogContent className="max-h-[90vh] overflow-y-auto">
                                                     <DialogHeader>
-                                                        <DialogTitle>
+                                                        <DialogTitle className="text-lg md:text-xl">
                                                             Editar usuário
                                                         </DialogTitle>
                                                         <DialogDescription></DialogDescription>
@@ -214,8 +223,14 @@ export default function ListUsers() {
                                             </Dialog>
                                             <AlertDialog>
                                                 <AlertDialogTrigger asChild>
-                                                    <Button className="bg-red-900 hover:bg-red-950">
-                                                        <Trash2 />
+                                                    <Button
+                                                        size="sm"
+                                                        className="bg-red-900 hover:bg-red-950 px-2 md:px-4 h-8 md:h-auto"
+                                                    >
+                                                        <Trash2 className="h-3 md:h-4 w-3 md:w-4" />
+                                                        <span className="ml-1 md:ml-2 hidden md:inline text-xs md:text-sm">
+                                                            Deletar
+                                                        </span>
                                                     </Button>
                                                 </AlertDialogTrigger>
                                                 <AlertDialogContent>

@@ -1,9 +1,10 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  turbopack: {
-    root: 'E:/Códigos/frontend-springboot-mongodb',
-  }
+    allowedDevOrigins: ['192.168.0.2'],
+    turbopack: {
+        root: 'E:/Códigos/frontend-springboot-mongodb',
+    },
 };
 
 export default nextConfig;

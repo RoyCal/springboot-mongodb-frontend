@@ -72,15 +72,17 @@ const AddCommentForm = ({ postId, users, onSuccess }: AddCommentFormProps) => {
                         name="text"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Comentário</FormLabel>
+                                <FormLabel className="text-xs md:text-sm">
+                                    Comentário
+                                </FormLabel>
                                 <FormControl>
                                     <Textarea
                                         {...field}
                                         placeholder="Digite seu comentário"
-                                        className="min-h-20 w-full rounded-md border border-purple-700 bg-slate-950 px-3 py-2 text-purple-100 placeholder-purple-500 focus:border-pink-500 focus:outline-none"
+                                        className="min-h-20 w-full rounded-md border border-purple-700 bg-slate-950 px-3 py-2 text-sm md:text-base text-purple-100 placeholder-purple-500 focus:border-pink-500 focus:outline-none"
                                     />
                                 </FormControl>
-                                <FormMessage />
+                                <FormMessage className="text-xs" />
                             </FormItem>
                         )}
                     />
@@ -89,13 +91,15 @@ const AddCommentForm = ({ postId, users, onSuccess }: AddCommentFormProps) => {
                         name="authorId"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Autor</FormLabel>
+                                <FormLabel className="text-xs md:text-sm">
+                                    Autor
+                                </FormLabel>
                                 <Select
                                     onValueChange={field.onChange}
                                     defaultValue={field.value}
                                 >
                                     <FormControl>
-                                        <SelectTrigger>
+                                        <SelectTrigger className="text-sm md:text-base">
                                             <SelectValue placeholder="Selecione um autor" />
                                         </SelectTrigger>
                                     </FormControl>

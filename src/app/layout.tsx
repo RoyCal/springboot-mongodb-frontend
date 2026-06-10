@@ -45,8 +45,8 @@ export default function RootLayout({
                 <ApiProvider>
                     <SidebarProvider>
                         <AppSidebar />
-                        <main className="w-screen h-screen overflow-auto bg-slate-950">
-                            <SidebarTrigger className="absolute hover:bg-slate-700" />
+                        <main className="w-full flex-1 overflow-auto bg-slate-950 md:w-screen md:h-screen">
+                            <SidebarTrigger className="absolute m-2 hover:bg-slate-700 z-10" />
                             {children}
                         </main>
                     </SidebarProvider>

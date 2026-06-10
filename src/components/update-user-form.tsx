@@ -13,7 +13,7 @@ import {
 import { Input } from './ui/input';
 import { DialogFooter } from './ui/dialog';
 import { Button } from './ui/button';
-import { Loader2, Pencil} from 'lucide-react';
+import { Loader2, Pencil } from 'lucide-react';
 import { toast } from 'sonner';
 import { updateUser } from '@/actions/handle-api';
 
@@ -29,7 +29,12 @@ const userUpdateFormSchema = z.object({
     email: z.email({ message: 'Email é obrigatório' }),
 });
 
-const UserUpdateForm = ({userId, name, email, onSuccess}: UserUpdateFormProps) => {
+const UserUpdateForm = ({
+    userId,
+    name,
+    email,
+    onSuccess,
+}: UserUpdateFormProps) => {
     const form = useForm<z.infer<typeof userUpdateFormSchema>>({
         resolver: zodResolver(userUpdateFormSchema),
         defaultValues: {
@@ -39,11 +44,11 @@ const UserUpdateForm = ({userId, name, email, onSuccess}: UserUpdateFormProps) =
     });
 
     async function onSubmit(data: z.infer<typeof userUpdateFormSchema>) {
-        const updated = await updateUser(userId, data.name, data.email)
+        const updated = await updateUser(userId, data.name, data.email);
 
         if (updated) {
             toast.success('Usuário atualizado com sucesso');
-            onSuccess()
+            onSuccess();
         } else {
             toast.error('Erro ao atualizar usuário');
         }
@@ -61,11 +66,16 @@ const UserUpdateForm = ({userId, name, email, onSuccess}: UserUpdateFormProps) =
                         name="name"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Nome</FormLabel>
+                                <FormLabel className="text-xs md:text-sm">
+                                    Nome
+                                </FormLabel>
                                 <FormControl>
-                                    <Input {...field} />
+                                    <Input
+                                        {...field}
+                                        className="text-sm md:text-base"
+                                    />
                                 </FormControl>
-                                <FormMessage />
+                                <FormMessage className="text-xs" />
                             </FormItem>
                         )}
                     />
@@ -74,23 +84,35 @@ const UserUpdateForm = ({userId, name, email, onSuccess}: UserUpdateFormProps) =
                         name="email"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Email</FormLabel>
+                                <FormLabel className="text-xs md:text-sm">
+                                    Email
+                                </FormLabel>
                                 <FormControl>
-                                    <Input {...field} />
+                                    <Input
+                                        {...field}
+                                        className="text-sm md:text-base"
+                                    />
                                 </FormControl>
-                                <FormMessage />
+                                <FormMessage className="text-xs" />
                             </FormItem>
                         )}
                     />
-                    <DialogFooter>
+                    <DialogFooter className="flex gap-2 pt-4">
                         <Button
                             type="submit"
                             disabled={form.formState.isSubmitting}
+                            className="w-full md:w-auto"
                         >
                             {form.formState.isSubmitting ? (
                                 <Loader2 className="h-4 w-4 animate-spin" />
                             ) : (
-                                <Pencil />
+                                <>
+                                    {' '}
+                                    <Pencil className="h-4 w-4" />
+                                    <span className="ml-2 md:hidden">
+                                        Atualizar
+                                    </span>
+                                </>
                             )}
                         </Button>
                     </DialogFooter>

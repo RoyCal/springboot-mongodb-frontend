@@ -75,14 +75,17 @@ const AddPostForm = ({
                         name="title"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Título</FormLabel>
+                                <FormLabel className="text-xs md:text-sm">
+                                    Título
+                                </FormLabel>
                                 <FormControl>
                                     <Input
                                         {...field}
                                         placeholder="Digite o título do post"
+                                        className="text-sm md:text-base"
                                     />
                                 </FormControl>
-                                <FormMessage />
+                                <FormMessage className="text-xs" />
                             </FormItem>
                         )}
                     />
@@ -91,15 +94,17 @@ const AddPostForm = ({
                         name="body"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Conteúdo</FormLabel>
+                                <FormLabel className="text-xs md:text-sm">
+                                    Conteúdo
+                                </FormLabel>
                                 <FormControl>
                                     <Textarea
                                         {...field}
                                         placeholder="Digite o conteúdo do post"
-                                        className="min-h-32 w-full rounded-md border border-purple-700 bg-slate-950 px-3 py-2 text-purple-100 placeholder-purple-500 focus:border-pink-500 focus:outline-none"
+                                        className="min-h-24 md:min-h-32 w-full rounded-md border border-purple-700 bg-slate-950 px-3 py-2 text-sm md:text-base text-purple-100 placeholder-purple-500 focus:border-pink-500 focus:outline-none"
                                     />
                                 </FormControl>
-                                <FormMessage />
+                                <FormMessage className="text-xs" />
                             </FormItem>
                         )}
                     />
@@ -108,13 +113,15 @@ const AddPostForm = ({
                         name="authorId"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Autor</FormLabel>
+                                <FormLabel className="text-xs md:text-sm">
+                                    Autor
+                                </FormLabel>
                                 <Select
                                     onValueChange={field.onChange}
                                     defaultValue={field.value}
                                 >
                                     <FormControl>
-                                        <SelectTrigger>
+                                        <SelectTrigger className="text-sm md:text-base">
                                             <SelectValue placeholder="Selecione um autor" />
                                         </SelectTrigger>
                                     </FormControl>

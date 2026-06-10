@@ -54,11 +54,16 @@ const UserForm = ({ onSuccess }: { onSuccess: () => void }) => {
                         name="name"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Nome</FormLabel>
+                                <FormLabel className="text-xs md:text-sm">
+                                    Nome
+                                </FormLabel>
                                 <FormControl>
-                                    <Input {...field} />
+                                    <Input
+                                        {...field}
+                                        className="text-sm md:text-base"
+                                    />
                                 </FormControl>
-                                <FormMessage />
+                                <FormMessage className="text-xs" />
                             </FormItem>
                         )}
                     />
@@ -67,23 +72,35 @@ const UserForm = ({ onSuccess }: { onSuccess: () => void }) => {
                         name="email"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Email</FormLabel>
+                                <FormLabel className="text-xs md:text-sm">
+                                    Email
+                                </FormLabel>
                                 <FormControl>
-                                    <Input {...field} />
+                                    <Input
+                                        {...field}
+                                        className="text-sm md:text-base"
+                                    />
                                 </FormControl>
-                                <FormMessage />
+                                <FormMessage className="text-xs" />
                             </FormItem>
                         )}
                     />
-                    <DialogFooter>
+                    <DialogFooter className="flex gap-2 pt-4">
                         <Button
                             type="submit"
                             disabled={form.formState.isSubmitting}
+                            className="w-full md:w-auto"
                         >
                             {form.formState.isSubmitting ? (
                                 <Loader2 className="h-4 w-4 animate-spin" />
                             ) : (
-                                <Plus />
+                                <>
+                                    {' '}
+                                    <Plus className="h-4 w-4" />
+                                    <span className="ml-2 md:hidden">
+                                        Adicionar
+                                    </span>
+                                </>
                             )}
                         </Button>
                     </DialogFooter>
